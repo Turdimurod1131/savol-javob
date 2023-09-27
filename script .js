@@ -1,67 +1,57 @@
-let savollar = [
+
+var questions = [
   {
-    savol: " shtat qaysi davlatda bor ?",
-    variant: [
-      "A. Amerika",
-      "B. Tojikiston",
-      "C. Yaponiya",
-      "D. Rossiya federatsiyasi ",
-    ],
-    javobi: "A",
+    question: "Savol 1?",
+    options: ["A", "B", "C", "D"],
+    answer: "A"
   },
   {
-    savol: "Termiz shahri qaysi viloyat markazi ?",
-    variant: ["A. Farg`ona ", "B. Andijon", "C. Toshkent", "D. Surhondaryo"],
-    javobi: "D",
+    question: "Savol 2?",
+    options: ["A", "B", "C", "D"],
+    answer: "B"
   },
-  {
-    savol: "htmlning vazifasi nima qiladi ?",
-    variant: [
-      "A. sikletni vazifasini bajaradi",
-      "B. funksiya vazifasini bajaradi",
-      "C. hech qanday vazifa bajarmaydi",
-      "D. proyektni boshlang'ich vazifasini tuzub beradi ",
-    ],
-    javobi: "A",
-  },
-  {
-    savol: "8x3 ?",
-    variant: ["A. 13", "B. 24", "C. 16", "D. 12"],
-    javobi: "B",
-  },
+  // Qolgan savollar
 ];
 
-let togriJavoblar = 0;
-//  alert(" Variantni tanlashdan oldin 'Caps Lock ' tugmasini bosing.");
+// To'plam natijalari uchun o'zgaruvchi
+var score = 0;
 
-for (let i = 0; i < savollar.length; i++) {
-  const userJavobi = prompt(
-    savollar[i].savol + "\nVariant:\n " + savollar[i].variant.join("\n")
-  );
+// Testni boshlash
+function startTest() {
+  var startTime = new Date();
+  
+  for (var i = 0; i < questions.length; i++) {
+    var userAnswer = prompt(questions[i].question + "\n" + questions[i].options.join("\n"));
+    
+    // Javobni tekshirish
+    if (userAnswer && userAnswer.toUpperCase() === questions[i].answer.toUpperCase()) {
+      score++;
+    } else {
+      analyzeMistake(i);
+      i--; // Xatoligi tahlil qilish uchun qayta o'tish
+    }
+  }
+  
+  var endTime = new Date();
+  var testTime = (endTime - startTime) / 1000; // sekundlar bilan
+  
+  // IELTS/CEFR natijasi uchun ball qo'shish
+  if (score === questions.length) {
+    score++;
+  }
+  
+  alert("Test yakunlandi!\nNatijangiz: " + score + " ball\nTest vaqti: " + testTime + " sekund");
+}
 
-  if (userJavobi == savollar[i].javobi) {
-    togriJavoblar++;
-  } else if (userJavobi == "quit") {
-    break;
-  } else if (userJavobi == "next") {
-    continue;
-  } else if (userJavobi == "" || userJavobi == null) {
-    alert("Siz variant belgilamadingiz");
+// Xatolarni tahlil qilish
+function analyzeMistake(questionIndex) {
+  var newAnswer = prompt("Noto'g'ri javob!\nTo'g'ri javobni kiriting: " + questions[questionIndex].answer);
+  
+  // Xatoligi tahlil qilish
+  if (newAnswer && newAnswer.toUpperCase() === questions[questionIndex].answer.toUpperCase()) {
+    score++;
   }
 }
 
-alert(
-  "Siz " +
-    savollar.length +
-    " ta savoldan " +
-    togriJavoblar +
-    " ta to'gri bajardingiz."
-);
-
-if (togriJavoblar >= savollar.length - 3) {
-  alert(" Siz bu testni to'g'ri bajardingiz");
-} else if (togriJavoblar == savollar.length - 5 < savollar.length - 3) {
-  alert("  Siz  bu testni 50% bajardingiz.");
-} else {
-  alert(" Siz bu testni bajara olmadingiz");
-}
+// Testni boshlash uchun funktsiyani chaqirish
+startTest();
